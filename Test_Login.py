@@ -1,27 +1,26 @@
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-#driver = webdriver.Chrome(ChromeDriverManager().install())
-#from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 import pytest
 import time
-from Test_POMDemo.Test_Pages.test_login_page import test_Login_page
-from Test_POMDemo.Test_Pages.test_order_assign import test_Order_Assign
+from POMDemo.Test_Pages.test_login_page import test_Login_page
+from POMDemo.Test_Pages.test_order_assign import test_Order_Assign
 
-class TestSample():
+class Test_Sample():
     @pytest.fixture()
     def test_setup(self):
         global driver
-        #ser = Service("../chrome_driver/chromedriver.exe")
-        driver = webdriver.Chrome("../chrome_driver/chromedriver.exe")
+        ser = Service(executable_path="C:/Users/Lenovo/PycharmProjects/Udemycourse/drivers/chromedriver.exe")
+        driver = webdriver.Chrome(service=ser)
         driver.maximize_window()
         yield
         driver.close()
         driver.quit()
-        print("test_page Completed")
+        print("test Completed")
 
     def test_login(self,test_setup):
         driver.get("https://app.shipway.com/merchant.php?dispatch=auth.login_form&return_url=merchant.php")
+        time.sleep(4)
 
         login = test_Login_page(driver)
         login.enter_username("shantanu.khanna1@shipway.in")
